@@ -52,7 +52,7 @@ You need to make sure the output file does not exist; the script will not overri
 
 The unit test cases are not entirely exhaustive, however they cover the cases I felt were important (input checking and validation of main logic)
 
-The input checking itself is fairly rudementary, and primarily exists to avoid filesystem errors. 
+The input checking itself is fairly rudimentary, and primarily exists to avoid filesystem errors. 
 
 ### Assumptions
 
