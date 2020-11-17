@@ -3,13 +3,13 @@ import os
 import sys
 
 
+# extracted functionality to make testing easier
 def read_file_lines(file_path: str) -> list[str]:
     with open(file_path) as file:
         content = file.read().splitlines()
     return content
 
 
-# just let any exceptions bubble up...
 def write_file_lines(content: list[str], file_path: str) -> None:
     with open(file_path, 'w') as output_file:
         output_file.write('\n'.join(content))
@@ -52,14 +52,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
     return args
 
-
+# returns number of substring instances found within the target string
 def get_substr_count_in_str(substrings: list[str], target_string: str) -> int:
     count = 0
     target_string_normalized = target_string.casefold()
     for substr in substrings:
         substr_normalized = substr.casefold()
         target_string_index = 0
-        # python does not have a do while loop for some reason so.....
+        # python does not have a do while loop, so this is a workaround for that
         while True:
             occurrence_index = target_string_normalized.find(substr_normalized, target_string_index)
             if occurrence_index == -1:
@@ -70,6 +70,8 @@ def get_substr_count_in_str(substrings: list[str], target_string: str) -> int:
     return count
 
 
+# returns the offence score for a specified file given lists of high risk and low risk phrases
+# high risk phrases have double the 'offence score' of a low risk phrase.
 def get_offence_score_for_file(
         high_risk_phrases: list[str],
         low_risk_phrases: list[str],
@@ -83,6 +85,8 @@ def get_offence_score_for_file(
     return offence_score
 
 
+# writes the offence score of the specified files to the specified output file.
+# offence score is calculated from lists of high risk and low risk phrases.
 def write_offence_scores_to_file(
         high_risk_phrases_file_path: str,
         low_risk_phrases_file_path: str,
@@ -101,7 +105,7 @@ def write_offence_scores_to_file(
     write_file_lines(output, output_file_path)
     return 0
 
-
+# parses inputs and calls the main logic
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     return write_offence_scores_to_file(

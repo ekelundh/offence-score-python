@@ -7,8 +7,26 @@ import offence_score
 
 # execute with command 'py.test <path-to-this-file> -v'
 
+# ---------------------------- TEST DATA DEFINITION START ----------------------------
+
 high_risk_phrases_file_path = 'path/to/high_risk.txt'
 low_risk_phrases_file_path = 'path/to/low_risk.txt'
+
+special_characters_file_path = 'data/specialCharacters.txt'
+mixed_case_file_path = 'data/mixedCase.txt'
+multi_line_file_path = 'data/multiLine.txt'
+simple_file_path = 'data/simple.txt'
+no_offence_file_path = 'data/noOffence.txt'
+
+output_file_path = 'path/to/output.txt'
+
+files_to_scan = [
+    mixed_case_file_path,
+    multi_line_file_path,
+    simple_file_path,
+    special_characters_file_path,
+    no_offence_file_path
+]
 
 high_risk_phrases_file_lines = [
     'Voldemort',
@@ -27,41 +45,24 @@ low_risk_phrases_file_lines = [
     'plan'
 ]
 
-output_file_path = 'path/to/output.txt'
+input_args = ['offence_score.py', high_risk_phrases_file_path, low_risk_phrases_file_path, output_file_path]
+for file in files_to_scan:
+    input_args.append(file)
 
-special_characters_file_path = 'data/specialCharacters.txt'
-mixed_case_file_path = 'data/mixedCase.txt'
-multi_line_file_path = 'data/multiLine.txt'
-simple_file_path = 'data/simple.txt'
-no_offence_file_path = 'data/noOffence.txt'
-
-files_to_scan = [
-    mixed_case_file_path,
-    multi_line_file_path,
-    simple_file_path,
-    special_characters_file_path,
-    no_offence_file_path
-]
-mixed_case_file_content = "The insidious sky joins the Dark Lord and his mundane shOOteR!"
 mixed_case_file_lines = ["The insidious sky joins the Dark Lord and his mundane shOOteR!"]
+no_offence_file_lines = ["Whiskey on the table likes to take a walk in the park."]
 
-multi_line_file_content = """The legend of the raven's roar gambles with lives, happiness, and even destiny itself!
-
-
-''''"""
 multi_line_file_lines = ["The legend of the raven's roar gambles with lives, happiness, and even destiny itself!",
                          '',
                          '',
                          "''''"]
+multi_line_file_content = '\n'.join(multi_line_file_lines)
 
-simple_file_content = "The ugliest sister engineers the animal's plan."
 simple_file_lines = ["The ugliest sister engineers the animal's plan."]
+simple_file_content = '\n'.join(simple_file_lines)
 
-special_characters_file_content = "The law modernizes the mundane impulse of eSolutions; that's amazing/."
 special_characters_file_lines = ["The law modernizes the mundane impulse of eSolutions; that's amazing/."]
-
-no_offence_file_content = "Whiskey on the table likes to take a walk in the park."
-no_offence_file_lines = ["Whiskey on the table likes to take a walk in the park."]
+special_characters_file_content = '\n'.join(special_characters_file_lines)
 
 expected_file_output = [
     '{}:{}'.format(mixed_case_file_path, '5'),
@@ -74,6 +75,7 @@ expected_file_output = [
 expected_file_output_raw = '\n'.join(expected_file_output)
 
 
+# two functions for use as side effects for mocked functions
 def read_file_lines_side_effects(file_path):
     if file_path == mixed_case_file_path:
         return mixed_case_file_lines
@@ -111,6 +113,9 @@ def get_offence_score_for_file_side_effects(high_risk, low_risk, file_path):
         raise ValueError("File path'{}' is not set up to be mocked yet.".format(file_path))
 
 
+# ---------------------------- TEST DATA DEFINITION END ----------------------------
+
+# the following two suites test the extracted reading/writing functions
 class WriteFileLinesTests(unittest.TestCase):
     @staticmethod
     def test_should_write_string_list_to_file():
@@ -189,7 +194,8 @@ class CalculateOffenceScoreTests(unittest.TestCase):
         self.assertEqual(0, score)
 
 
-# tests main fuction
+# tests 'write_offence_scores_to_file'
+# does not test negative cases with malformed input as the arg checker tests should catch those
 class WriteOffenceScoresTests(unittest.TestCase):
     @mock.patch('offence_score.write_file_lines')
     @mock.patch('offence_score.read_file_lines')
@@ -239,13 +245,10 @@ class WriteOffenceScoresTests(unittest.TestCase):
 
 
 # tests argument parsing
+# does not test if arguments were passed in or not as argparse does that out of the box for us
 class ArgumentTests(unittest.TestCase):
     @mock.patch('os.path.isfile')
     def test_parse_args_happy_path(self, mock_isfile):
-        input_args = ['offence_score.py', high_risk_phrases_file_path, low_risk_phrases_file_path, output_file_path]
-        for file in files_to_scan:
-            input_args.append(file)
-
         def side_effect(filename):
             if filename != output_file_path:
                 return True
@@ -261,10 +264,6 @@ class ArgumentTests(unittest.TestCase):
 
     @mock.patch('os.path.isfile')
     def test_parse_args_fails_when_no_high_risk_exists(self, mock_isfile):
-        input_args = ['offence_score.py', high_risk_phrases_file_path, low_risk_phrases_file_path, output_file_path]
-        for file in files_to_scan:
-            input_args.append(file)
-
         def side_effect(filename):
             if filename != output_file_path and filename != high_risk_phrases_file_path:
                 return True
@@ -276,10 +275,6 @@ class ArgumentTests(unittest.TestCase):
 
     @mock.patch('os.path.isfile')
     def test_parse_args_fails_when_no_low_risk_exists(self, mock_isfile):
-        input_args = ['offence_score.py', high_risk_phrases_file_path, low_risk_phrases_file_path, output_file_path]
-        for file in files_to_scan:
-            input_args.append(file)
-
         def side_effect(filename):
             if filename != output_file_path and filename != low_risk_phrases_file_path:
                 return True
@@ -291,10 +286,6 @@ class ArgumentTests(unittest.TestCase):
 
     @mock.patch('os.path.isfile')
     def test_parse_args_fails_when_output_file_already_exists(self, mock_isfile):
-        input_args = ['offence_score.py', high_risk_phrases_file_path, low_risk_phrases_file_path, output_file_path]
-        for file in files_to_scan:
-            input_args.append(file)
-
         def side_effect(filename):
             return True
 
