@@ -59,6 +59,7 @@ The input checking itself is fairly rudimentary, and primarily exists to avoid f
 
 - Special characters/whitespace/newlines breaking up a 'risky phrase' should not be matched. ie `pl an` would not be matched, given that `plan` is a 'risky word'.
 - Variations of matched words that differ only by casing _should_ be matched; that is to say `PLAN` as well as `pLan` or `PlAN` would be matched, given that `plan` is a 'risky word'.
+- suppose `barf` is a 'risky phrase'; `barfing` (or rather the first 4 characters of `barfing`) would be matched.
 - All input files are well-formed if they exist; for example, I don't check to see if you passed in a JSON file instead of a newline delimited list of phrases.
 - Characters can be part of multiple matches; for example, suppose you have a file with contents `sss`, and `ss` is considered a low risk risky word. This script will mark the score of this file as 2; the first match would be the first and second s, and the second match would be the second and third s. This case is sort of unlikely to occur, but I wanted to mention it regardless.
 

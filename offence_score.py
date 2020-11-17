@@ -105,6 +105,7 @@ def write_offence_scores_to_file(
     write_file_lines(output, output_file_path)
     return 0
 
+
 # parses inputs and calls the main logic
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
