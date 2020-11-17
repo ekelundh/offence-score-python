@@ -23,28 +23,29 @@ After executing that command, you should see something similar to the following:
 
 
 ```
-======================================================================================================== test session starts ========================================================================================================
+================================================= test session starts =================================================
 platform win32 -- Python 3.9.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- c:\users\henry\appdata\local\programs\python\python39\python.exe
 cachedir: .pytest_cache
-rootdir: C:\Henry\python
-collected 14 items
+rootdir: C:\Henry\offence-score-python
+collected 15 items
 
-test_offence_score.py::WriteFileLinesTests::test_should_write_string_list_to_file PASSED                                                                                                                                       [  7%]
-test_offence_score.py::ReadFileLinesTests::test_should_correctly_read_multi_line_file_content PASSED                                                                                                                           [ 14%]
-test_offence_score.py::ReadFileLinesTests::test_should_correctly_read_simple_file_content PASSED                                                                                                                               [ 21%]
-test_offence_score.py::ReadFileLinesTests::test_should_correctly_read_special_characters_file_content PASSED                                                                                                                   [ 28%]
-test_offence_score.py::CalculateOffenceScoreTests::test_correctly_scores_file_with_special_characters PASSED                                                                                                                   [ 35%]
-test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_file_with_multiple_lines PASSED                                                                                                                 [ 42%]
-test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_file_with_offences PASSED                                                                                                                       [ 50%]
-test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_files_with_mixed_case_phrases PASSED                                                                                                            [ 57%]
-test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_simple_file PASSED                                                                                                                              [ 64%]
-test_offence_score.py::WriteOffenceScoresTests::test_scan_files_and_write_results_to_output_file_in_order PASSED                                                                                                               [ 71%]
-test_offence_score.py::ArgumentTests::test_parse_args_fails_when_no_high_risk_exists PASSED                                                                                                                                    [ 78%]
-test_offence_score.py::ArgumentTests::test_parse_args_fails_when_no_low_risk_exists PASSED                                                                                                                                     [ 85%]
-test_offence_score.py::ArgumentTests::test_parse_args_fails_when_output_file_already_exists PASSED                                                                                                                             [ 92%]
-test_offence_score.py::ArgumentTests::test_parse_args_happy_path PASSED                                                                                                                                                        [100%]
+test_offence_score.py::WriteFileLinesTests::test_should_write_string_list_to_file PASSED                         [  6%]
+test_offence_score.py::ReadFileLinesTests::test_should_correctly_read_multi_line_file_content PASSED             [ 13%]
+test_offence_score.py::ReadFileLinesTests::test_should_correctly_read_simple_file_content PASSED                 [ 20%]
+test_offence_score.py::ReadFileLinesTests::test_should_correctly_read_special_characters_file_content PASSED     [ 26%]
+test_offence_score.py::CalculateOffenceScoreTests::test_correctly_scores_file_with_special_characters PASSED     [ 33%]
+test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_file_with_multiple_lines PASSED   [ 40%]
+test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_file_with_offences PASSED         [ 46%]
+test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_files_with_mixed_case_phrases PASSED [ 53%]
+test_offence_score.py::CalculateOffenceScoreTests::test_should_correctly_score_simple_file PASSED                [ 60%]
+test_offence_score.py::WriteOffenceScoresTests::test_scan_files_and_write_results_to_output_file_in_order PASSED [ 66%]
+test_offence_score.py::ArgumentTests::test_parse_args_fails_when_a_target_file_does_not_exist PASSED             [ 73%]
+test_offence_score.py::ArgumentTests::test_parse_args_fails_when_no_high_risk_exists PASSED                      [ 80%]
+test_offence_score.py::ArgumentTests::test_parse_args_fails_when_no_low_risk_exists PASSED                       [ 86%]
+test_offence_score.py::ArgumentTests::test_parse_args_fails_when_output_file_already_exists PASSED               [ 93%]
+test_offence_score.py::ArgumentTests::test_parse_args_happy_path PASSED                                          [100%]
 
-======================================================================================================== 14 passed in 0.14s =========================================================================================================
+================================================= 15 passed in 0.12s ==================================================
 ```
 
 #### Remarks

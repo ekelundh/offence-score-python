@@ -249,8 +249,8 @@ class WriteOffenceScoresTests(unittest.TestCase):
 class ArgumentTests(unittest.TestCase):
     @mock.patch('os.path.isfile')
     def test_parse_args_happy_path(self, mock_isfile):
-        def side_effect(filename):
-            if filename != output_file_path:
+        def side_effect(file_name):
+            if file_name != output_file_path:
                 return True
             return False
 
@@ -264,8 +264,8 @@ class ArgumentTests(unittest.TestCase):
 
     @mock.patch('os.path.isfile')
     def test_parse_args_fails_when_no_high_risk_exists(self, mock_isfile):
-        def side_effect(filename):
-            if filename != output_file_path and filename != high_risk_phrases_file_path:
+        def side_effect(file_name):
+            if file_name != output_file_path and file_name != high_risk_phrases_file_path:
                 return True
             return False
 
@@ -275,8 +275,8 @@ class ArgumentTests(unittest.TestCase):
 
     @mock.patch('os.path.isfile')
     def test_parse_args_fails_when_no_low_risk_exists(self, mock_isfile):
-        def side_effect(filename):
-            if filename != output_file_path and filename != low_risk_phrases_file_path:
+        def side_effect(file_name):
+            if file_name != output_file_path and file_name != low_risk_phrases_file_path:
                 return True
             return False
 
@@ -286,8 +286,19 @@ class ArgumentTests(unittest.TestCase):
 
     @mock.patch('os.path.isfile')
     def test_parse_args_fails_when_output_file_already_exists(self, mock_isfile):
-        def side_effect(filename):
+        def side_effect(file_name):
             return True
+
+        mock_isfile.side_effect = side_effect
+        with self.assertRaises(SystemExit):
+            offence_score.parse_args(input_args)
+
+    @mock.patch('os.path.isfile')
+    def test_parse_args_fails_when_a_target_file_does_not_exist(self, mock_isfile):
+        def side_effect(file_name):
+            if file_name != output_file_path and file_name != simple_file_path:
+                return True
+            return False
 
         mock_isfile.side_effect = side_effect
         with self.assertRaises(SystemExit):
